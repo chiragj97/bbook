@@ -23,7 +23,7 @@ const Dashboard = () => {
 
   const handleKeyPress = (e) => {
     console.log("Event: ", event);
-    if (e.ctrlKey && e.which === 87) {
+    if (e.shiftKey && e.which === 87) {
       setDisplay(!display);
     }
   };
