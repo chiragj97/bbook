@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MUIDataTable from "mui-datatables";
 import { FiEdit, FiCheck } from "react-icons/fi";
-import { Grid } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import { Header } from "../components";
 import { useStateContext } from "../contexts/ContextProvider";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-const CustomDatatable = ({ entries, title }) => {
+const CustomDatatable = (props) => {
   const [completed, setCompleted] = useState(false);
   const { setUpdateRecord } = useStateContext();
+  const [entries, setEntries] = useState(props.entries)
+  const [startDate, setStartDate] = useState(
+    new Date(new Date().setFullYear(new Date().getFullYear() - 1))
+    // new Date(Date.now()) 
+  );
+  const [endDate, setEndDate] = useState(new Date(Date.now()));
   const columns = [
     {
       name: "customerName",
@@ -120,13 +129,13 @@ const CustomDatatable = ({ entries, title }) => {
                 <Link to="/new_entry">
                   <FiEdit
                     className="hover:scale-110"
-                    onClick={() => setUpdateRecord(entries[tableMeta.rowIndex])}
+                    onClick={() => setUpdateRecord(props.entries[tableMeta.rowIndex])}
                   />
                 </Link>
               </Grid>
               <Grid item xs={6}>
                 <FiCheck
-                  onClick={() => handleCompleted(entries[tableMeta.rowIndex])}
+                  onClick={() => handleCompleted(props.entries[tableMeta.rowIndex])}
                   className="hover:scale-125 cursor-pointer"
                 />
               </Grid>
@@ -135,7 +144,37 @@ const CustomDatatable = ({ entries, title }) => {
         },
       },
     },
+    {
+      name: 'status',
+      label: "Status"
+    }
   ];
+
+  useEffect(() => { 
+    console.log("here2")
+    setEntries(props.entries);
+  },[props.entries]);
+
+  useEffect(() => {
+    if(props.entries.length > 0) {
+      console.log("here")
+      setEntries(filterDateRange(startDate, endDate, props.entries));
+    }
+  }, [startDate, endDate]);
+
+
+  const filterDateRange = (startDate, endDate, entries) => {
+    console.log("see", startDate, endDate, entries);
+
+    let filteredEntries = entries.filter(
+      (entry) =>
+        new Date(entry.issuedDate) >= new Date(startDate) &&
+        new Date(entry.issuedDate) <= new Date(endDate)
+    );
+
+    console.log("fe", filteredEntries);
+    return filteredEntries;
+  };
 
   const handleCompleted = async (record) => {
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
@@ -167,27 +206,45 @@ const CustomDatatable = ({ entries, title }) => {
       }
     });
   };
-  // const data = [
-  //   { name: "Joe James", company: "Test Corp", city: "Yonkers", state: "NY" },
-  //   { name: "John Walsh", company: "Test Corp", city: "Hartford", state: "CT" },
-  //   { name: "Bob Herm", company: "Test Corp", city: "Tampa", state: "FL" },
-  //   {
-  //     name: "James Houston",
-  //     company: "Test Corp",
-  //     city: "Dallas",
-  //     state: "TX",
-  //   },
-  // ];
+
   const options = {
     responsive: "standard",
     confirmFilters: true,
   };
 
   return (
+    console.log('ent', entries),
     <div>
-      <Header title={title} />
+      <Grid container spacing={2}>
+        {/* <Grid item xs={4}>
+          <Header title={props.title} />
+        </Grid> */}
+        <Grid item xs={8}>
+          Date Range: 
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+
+        <MobileDatePicker
+          label="Start Date"
+          inputFormat="MM/dd/yyyy"
+          value={startDate}
+          onChange={(time) => setStartDate(time)}
+          renderInput={(params) => <TextField {...params} />}
+        />
+        <MobileDatePicker
+          label="End Date"
+          inputFormat="MM/dd/yyyy"
+          value={endDate}
+          onChange={(time) => setEndDate(time)}
+          renderInput={(params) => <TextField {...params} />}
+        />
+        </LocalizationProvider>
+        </Grid>
+        <Grid item xs={4}>
+          <div>Hola</div>
+        </Grid>
+      </Grid>
       <MUIDataTable
-        title={title}
+        title={props.title}
         data={entries}
         columns={columns}
         options={options}

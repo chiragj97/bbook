@@ -295,7 +295,7 @@ const NewEntryForm = ({ updateRecord, history }) => {
               <div>
                 <strong>Item Details</strong>
                 <Grid container spacing={2}>
-                  <Grid item xs={4}>
+                  <Grid item xs={3}>
                     <TextField
                       margin="normal"
                       required
@@ -309,7 +309,7 @@ const NewEntryForm = ({ updateRecord, history }) => {
                       })}
                     />
                   </Grid>
-                  <Grid item xs={4}>
+                  {/* <Grid item xs={3}>
                     <TextField
                       margin="normal"
                       required
@@ -322,8 +322,8 @@ const NewEntryForm = ({ updateRecord, history }) => {
                         required: true,
                       })}
                     />
-                  </Grid>
-                  <Grid item xs={4}>
+                  </Grid> */}
+                  <Grid item xs={3}>
                     <TextField
                       margin="normal"
                       required
@@ -337,26 +337,7 @@ const NewEntryForm = ({ updateRecord, history }) => {
                       })}
                     />
                   </Grid>
-                </Grid>
-              </div>
-              <div>
-                <strong>Pricing Details</strong>
-                <Grid container spacing={2}>
-                  <Grid item xs={4}>
-                    <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="interest"
-                      label="Interest (per month)"
-                      name="interest"
-                      autoComplete="Interest"
-                      {...register("interest", {
-                        required: true,
-                      })}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
+                  <Grid item xs={3}>
                     <TextField
                       margin="normal"
                       required
@@ -370,21 +351,7 @@ const NewEntryForm = ({ updateRecord, history }) => {
                       })}
                     />
                   </Grid>
-                  {/* <Grid item xs={4}>
-                      <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="myPrice"
-                        label="My Price"
-                        name="myPrice"
-                        autoComplete="My Price"
-                        {...register("myPrice", {
-                          required: true,
-                        })}
-                      />
-                    </Grid> */}
-                  <Grid item xs={4}>
+                  <Grid item xs={3}>
                     <TextField
                       margin="normal"
                       fullWidth
@@ -401,69 +368,8 @@ const NewEntryForm = ({ updateRecord, history }) => {
                 </Grid>
               </div>
               <div>
-                <strong>Time Period</strong>
+                <strong style={{ bottom: 50 }}>Time Period</strong>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <Typography gutterBottom>Duration (in months)</Typography>
-                    <Controller
-                      control={control}
-                      name="timePeriod"
-                      render={({ field }) => (
-                        <Slider
-                          //   aria-label="Temperature"
-                          defaultValue={1}
-                          getAriaValueText={valuetext}
-                          valueLabelDisplay="auto"
-                          valueLabelFormat={(value) => {
-                            // setTimePeriod(Number(value));
-                            return `${value} months`;
-                          }}
-                          step={1}
-                          // name="timePeriod"
-                          value={timePeriod ?? 1}
-                          onChange={(e, val) => {
-                            //   console.log("lll", val);
-                            setTimePeriod(Number(val));
-                            //   setIssuedDate(date);
-                            // setReturnDate(
-                            //   new Date(
-                            //     new Date(issuedDate).setMonth(
-                            //       new Date(issuedDate).getMonth() + Number(val)
-                            //     )
-                            //   )
-                            // );
-                            // setExpireDate(getExpireDate(issuedDate));
-                          }}
-                          marks
-                          min={1}
-                          max={12}
-                        />
-                      )}
-                    />
-                    {/* <Typography gutterBottom>Duration (in months)</Typography>
-                      <Slider
-                        aria-label="Temperature"
-                        defaultValue={1}
-                        getAriaValueText={valuetext}
-                        valueLabelDisplay="auto"
-                        valueLabelFormat={(value) => {
-                          setTimePeriod(Number(value));
-                          return `${value} months`;
-                        }}
-                        step={1}
-                        name="timePeriod"
-                        // value={timePeriod}
-                        // onChange={(e, val)=>{
-                        //     e.preventDefault()
-                        //     console.log(val);
-                        // }}
-                        marks
-                        min={1}
-                        max={12}
-                        {...register("timePeriod", {
-                          required: true,
-                        })} */}
-                  </Grid>
                   <Grid item xs={4}>
                     <Controller
                       control={control}

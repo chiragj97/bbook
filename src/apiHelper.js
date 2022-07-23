@@ -1,7 +1,7 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
-const API = "http://3.6.81.127:5000";
+const API = "http://localhost:5000";
 
 axios.interceptors.request.use(function (config) {
   const token = sessionStorage.getItem("token");
